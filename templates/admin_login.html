@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Girişi - Brawl Stars</title>
+    <style>
+        body {
+            background: #1E42A0;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .login-box {
+            background: #0E2A6E;
+            padding: 40px;
+            border-radius: 50px;
+            border: 2px solid #FFD700;
+            text-align: center;
+            width: 300px;
+        }
+        h1 {
+            color: #FFD700;
+            margin-bottom: 30px;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 30px;
+            border: none;
+            background: #1E3A8A;
+            color: white;
+            font-size: 16px;
+        }
+        button {
+            background: #FFD700;
+            color: #1E42A0;
+            border: none;
+            padding: 12px;
+            border-radius: 30px;
+            font-weight: bold;
+            width: 100%;
+            cursor: pointer;
+        }
+        .error {
+            color: #ff8888;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="login-box">
+    <h1>🔐 Admin Girişi</h1>
+    <form method="POST">
+        <input type="password" name="password" placeholder="Şifre" required>
+        <button type="submit">Giriş Yap</button>
+        {% if error %}
+        <p class="error">{{ error }}</p>
+        {% endif %}
+    </form>
+</div>
+</body>
+</html>

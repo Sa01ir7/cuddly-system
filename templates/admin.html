@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Paneli - Brawl Stars</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #1E42A0;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            padding: 30px 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #FFD700;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-card, .post-list {
+            background: #0E2A6E;
+            border-radius: 40px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 1px solid #FFD700;
+        }
+        .form-card h2, .post-list h2 {
+            color: #FFD700;
+            margin-bottom: 20px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 30px;
+            border: none;
+            background: #1E3A8A;
+            color: white;
+        }
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        button {
+            background: #FFD700;
+            color: #1E42A0;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .delete-btn {
+            background: #a12a2a;
+            color: white;
+            margin-left: 10px;
+        }
+        .admin-post {
+            background: #1E3A8A;
+            padding: 15px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+        }
+        .admin-post h3 {
+            color: #FFD700;
+        }
+        .logout {
+            background: #555;
+            color: white;
+            margin-top: 10px;
+        }
+        img {
+            max-width: 100px;
+            border-radius: 15px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🎮 ADMIN PANELİ - BRAWL STARS</h1>
+
+    <div class="form-card">
+        <h2>➕ Yeni Gönderi Ekle</h2>
+        <form method="POST" action="{{ url_for('add_post') }}">
+            <input type="text" name="title" placeholder="Başlık" required>
+            <textarea name="content" placeholder="İçerik" required></textarea>
+            <input type="text" name="image" placeholder="Resim URL (veya boş bırak)">
+            <button type="submit">✨ Gönderiyi Yayınla ✨</button>
+        </form>
+        <a href="{{ url_for('delete_all_posts') }}" onclick="return confirm('TÜM GÖNDERİLER SİLİNSİN?')">
+            <button class="delete-btn" style="margin-top:10px;">🗑 Tümünü Sil</button>
+        </a>
+    </div>
+
+    <div class="post-list">
+        <h2>📋 Mevcut Gönderiler</h2>
+        {% if posts %}
+            {% for post in posts %}
+            <div class="admin-post">
+                <h3>⚔️ {{ post[1] }}</h3>
+                <small>{{ post[4] }}</small>
+                {% if post[3] %}
+                    <div><img src="{{ post[3] }}" alt="resim" style="max-width:100px;"></div>
+                {% endif %}
+                <p>{{ post[2][:100] }}...</p>
+                <a href="{{ url_for('delete_post', post_id=post[0]) }}" onclick="return confirm('Bu gönderi silinsin?')">
+                    <button class="delete-btn">🗑 Sil</button>
+                </a>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p style="color:white;">Henüz gönderi yok.</p>
+        {% endif %}
+    </div>
+
+    <a href="{{ url_for('logout') }}">
+        <button class="logout">🚪 Çıkış Yap</button>
+    </a>
+    <a href="{{ url_for('index') }}" target="_blank">
+        <button style="margin-top:10px;">👁️ Anasayfayı Görüntüle</button>
+    </a>
+</div>
+</body>
+</html>
