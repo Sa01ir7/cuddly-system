@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brawl Stars Duyurular</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #1E42A0;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            padding: 30px 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .header h1 {
+            font-size: 48px;
+            color: #FFD700;
+            text-shadow: 4px 4px 0 #8B4513;
+        }
+        .header p {
+            color: white;
+        }
+        .posts-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        .post-card {
+            background: #2C4EB8;
+            border-radius: 30px;
+            padding: 25px;
+            border-left: 8px solid #FFD700;
+        }
+        .post-card h2 {
+            color: #FFD700;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        .post-date {
+            color: #ccc;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+        .post-image img {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 20px;
+            margin: 10px 0;
+        }
+        .post-content {
+            color: white;
+            margin-bottom: 20px;
+        }
+        .comments-section {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #FFD700;
+        }
+        .comment-input {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .comment-input input {
+            flex: 1;
+            padding: 10px;
+            border-radius: 25px;
+            border: none;
+            background: #1E3A8A;
+            color: white;
+        }
+        .comment-input button {
+            background: #FFD700;
+            color: #1E42A0;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .comment-list {
+            list-style: none;
+        }
+        .comment-list li {
+            background: #0E2A6E;
+            margin: 5px 0;
+            padding: 8px 15px;
+            border-radius: 20px;
+            color: white;
+        }
+        .empty-message {
+            background: #0E2A6E;
+            padding: 50px;
+            border-radius: 30px;
+            text-align: center;
+            color: white;
+        }
+        .admin-link {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #FFD700;
+            color: #1E42A0;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>⚔️ King Brawl News ⚔️</h1>
+        <p>Duyuru Panosu - Yorum yapabilirsin!</p>
+    </div>
+    <div id="postsContainer" class="posts-grid">
+        {% if posts %}
+            {% for post in posts %}
+            <div class="post-card">
+                <h2>⚔️ {{ post.title }}</h2>
+                <div class="post-date">📅 {{ post.date }}</div>
+                {% if post.image %}
+                <div class="post-image"><img src="{{ post.image }}" alt="resim"></div>
+                {% endif %}
+                <div class="post-content">{{ post.content.replace('\n', '<br>')|safe }}</div>
+                <div class="comments-section">
+                    <strong style="color:#FFD700;">💬 Yorumlar ({{ post.comments|length }})</strong>
+                    <ul class="comment-list">
+                        {% for cmt in post.comments %}
+                        <li><strong>🗣️ Ziyaretçi:</strong> {{ cmt.text }} <small style="color:#aaa;">({{ cmt.date }})</small></li>
+                        {% endfor %}
+                    </ul>
+                    <form method="POST" action="{{ url_for('add_comment', post_id=post.id) }}" class="comment-input">
+                        <input type="text" name="comment" placeholder="Yorum yaz..." required>
+                        <button type="submit">Gönder</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-message">📭 Henüz duyuru yok.</div>
+        {% endif %}
+    </div>
+</div>
+<a href="{{ url_for('admin_login') }}" class="admin-link">🔒 Admin</a>
+</body>
+  </html>
